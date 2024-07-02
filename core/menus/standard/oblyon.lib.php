@@ -54,7 +54,7 @@ function print_oblyon_menu($db, $atarget, $type_user = 0, &$tabMenu, &$menu, $no
 	if (! empty($landingpage)) {
 		$landingpage = dol_buildpath($landingpage, 1);
 	} else {
-		$landingpage = '/index.php?mainmenu=home&amp;leftmenu=home';
+		$landingpage = DOL_URL_ROOT . '/index.php?mainmenu=home&amp;leftmenu=home';
 	}
 
 	$id = 'mainmenu';
