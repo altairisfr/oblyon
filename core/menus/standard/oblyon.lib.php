@@ -91,7 +91,7 @@ function print_oblyon_menu($db, $atarget, $type_user = 0, &$tabMenu, &$menu, $no
 
 
         print '<div class="center backgroundforcompanylogo menulogocontainer">';
-        print '<a href="'.DOL_URL_ROOT.'" alt="'.dol_escape_htmltag($title).'" title="'.dol_escape_htmltag($title).'">';
+        print '<a href="' . DOL_URL_ROOT . $landingpage . '" alt="'.dol_escape_htmltag($title).'" title="'.dol_escape_htmltag($title).'">';
         print '<img class="mycompany" title="'.dol_escape_htmltag($title).'" alt="" src="'.$urllogo.'" style="max-width: 100px; height: 32px;">';
         print '</a>'."\n";
         print '</div>'."\n";
@@ -721,6 +721,14 @@ function print_left_oblyon_menu($db, $menu_array_before, $menu_array_after, &$ta
 		print '<div class="pushy-btn" title="'.$langs->trans("ShowLeftMenu").'">&#8801;</div>';
 	}
 
+	// get landing page
+	$landingpage = (empty($user->conf->MAIN_LANDING_PAGE) ? (!getDolGlobalString('MAIN_LANDING_PAGE') ? '' : $conf->global->MAIN_LANDING_PAGE) : $user->conf->MAIN_LANDING_PAGE);
+	if (! empty($landingpage)) {
+		$landingpage = str_replace(DOL_URL_ROOT, '', dol_buildpath($landingpage, 1));
+	} else {
+		$landingpage = '/index.php?mainmenu=home&amp;leftmenu=home';
+	}
+
 	// Show logo company
 	if (! empty($menu_invert) && empty($noout) && ! empty($conf->global->MAIN_SHOW_LOGO)) {
         //$mysoc->logo_mini=(empty($conf->global->MAIN_INFO_SOCIETE_LOGO_MINI)?'':$conf->global->MAIN_INFO_SOCIETE_LOGO_MINI);
@@ -744,7 +752,7 @@ function print_left_oblyon_menu($db, $menu_array_before, $menu_array_after, &$ta
 		print "\n".'<!-- Show logo on menu -->'."\n";
 
         print '<div class="menu_contenu db-menu__society center backgroundforcompanylogo menulogocontainer">';
-        print '<a href="'.DOL_URL_ROOT.'" alt="'.dol_escape_htmltag($title).'" title="'.dol_escape_htmltag($title).'">';
+        print '<a href="' . DOL_URL_ROOT . $landingpage . '" alt="'.dol_escape_htmltag($title).'" title="'.dol_escape_htmltag($title).'">';
         print '<img class="mycompany" title="'.dol_escape_htmltag($title).'" alt="" src="'.$urllogo.'" style="max-width: 100px; height: 32px;">';
         print '</a>'."\n";
         print '</div>'."\n";
@@ -792,12 +800,6 @@ function print_left_oblyon_menu($db, $menu_array_before, $menu_array_after, &$ta
 			$langs->load("users");
 
 			// Home - dashboard
-			$landingpage = (empty($user->conf->MAIN_LANDING_PAGE) ? (!getDolGlobalString('MAIN_LANDING_PAGE') ? '' : $conf->global->MAIN_LANDING_PAGE) : $user->conf->MAIN_LANDING_PAGE);
-			if (! empty($landingpage)) {
-				$landingpage = str_replace(DOL_URL_ROOT, '', dol_buildpath($landingpage, 1));
-			} else {
-				$landingpage = '/index.php?mainmenu=home&amp;leftmenu=home';
-			}
 			$newmenu->add($landingpage, $langs->trans("MyDashboard"), 0, 1, '', $mainmenu, 'home');
 
 			// Setup
