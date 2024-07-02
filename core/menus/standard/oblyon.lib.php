@@ -792,7 +792,13 @@ function print_left_oblyon_menu($db, $menu_array_before, $menu_array_after, &$ta
 			$langs->load("users");
 
 			// Home - dashboard
-			$newmenu->add("/index.php?mainmenu=home&amp;leftmenu=home", $langs->trans("MyDashboard"), 0, 1, '', $mainmenu, 'home');
+			$landingpage = (empty($user->conf->MAIN_LANDING_PAGE) ? (!getDolGlobalString('MAIN_LANDING_PAGE') ? '' : $conf->global->MAIN_LANDING_PAGE) : $user->conf->MAIN_LANDING_PAGE);
+			if (! empty($landingpage)) {
+				$landingpage = str_replace(DOL_URL_ROOT, '', dol_buildpath($landingpage, 1));
+			} else {
+				$landingpage = '/index.php?mainmenu=home&amp;leftmenu=home';
+			}
+			$newmenu->add($landingpage, $langs->trans("MyDashboard"), 0, 1, '', $mainmenu, 'home');
 
 			// Setup
 			$newmenu->add("/admin/index.php?mainmenu=home&amp;leftmenu=setup", $langs->trans("Setup"), 0, $user->admin, '', $mainmenu, 'setup');
